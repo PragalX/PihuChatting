@@ -10,6 +10,12 @@ load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
 OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
 
+# Ensure tokens are loaded
+if TOKEN is None:
+    raise ValueError("DISCORD_TOKEN is not set")
+if OPENAI_API_KEY is None:
+    raise ValueError("OPENAI_API_KEY is not set")
+
 # Set up OpenAI API key
 openai.api_key = OPENAI_API_KEY
 
