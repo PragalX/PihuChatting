@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vasudev Krishna</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f5f5f5;
+            font-family: Arial, sans-serif;
+        }
+
+        .heart-container {
+            position: relative;
+            width: 200px;
+            height: 180px;
+        }
+
+        .heart {
+            position: absolute;
+            width: 100px;
+            height: 90px;
+            background-color: red;
+            transform: rotate(-45deg);
+            border-radius: 50px 50px 0 0;
+            top: 50px;
+            left: 50px;
+        }
+
+        .heart::before,
+        .heart::after {
+            content: "";
+            position: absolute;
+            width: 100px;
+            height: 90px;
+            background-color: red;
+            border-radius: 50px;
+            top: 0;
+            left: 50px;
+        }
+
+        .heart::before {
+            left: 50px;
+            transform: rotate(45deg);
+        }
+
+        .heart::after {
+            left: 0;
+            transform: rotate(-45deg);
+        }
+
+        .text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="heart-container">
+        <div class="heart"></div>
+        <div class="text">Kohinoor</div>
+    </div>
+</body>
+</html>
