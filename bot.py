@@ -2,6 +2,8 @@ import discord
 import os
 from dotenv import load_dotenv
 import openai
+from flask import Flask, send_from_directory
+from threading import Thread
 
 # Load the .env file
 load_dotenv()
@@ -31,8 +33,10 @@ client = discord.Client(intents=intents)
 def get_openai_response(prompt):
     response = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
-        messages=[{"role": "system", "content": "You are a cute, caring, loving lady who uses 'bewkuf' in every sentence."},
-                  {"role": "user", "content": prompt}]
+        messages=[
+            {"role": "system", "content": "You are a beautiful, cute, sweet lady who uses 'bewkuf', 'khoob marungi', 'gadhe', and 'nalayak' in every sentence."},
+            {"role": "user", "content": prompt}
+        ]
     )
     return response.choices[0].message['content'].strip()
 
@@ -88,6 +92,20 @@ async def on_message(message):
     else:
         response = chatbot_response(message.content)
         await message.channel.send(f'{message.author.mention} {response}')
+
+# Flask web server
+app = Flask(__name__)
+
+@app.route('/')
+def serve_index():
+    return send_from_directory('.', 'index.html')
+
+def run_flask():
+    app.run(host='0.0.0.0', port=3000)
+
+# Run Flask server in a separate thread
+flask_thread = Thread(target=run_flask)
+flask_thread.start()
 
 # Run the bot with the token
 client.run(TOKEN)
