@@ -29,16 +29,16 @@ client = discord.Client(intents=intents)
 
 # Define a function to get a response from OpenAI
 def get_openai_response(prompt):
-    response = openai.Completion.create(
-        engine="text-davinci-003",
-        prompt=prompt,
-        max_tokens=150
+    response = openai.ChatCompletion.create(
+        model="gpt-3.5-turbo",
+        messages=[{"role": "system", "content": "You are a cute, caring, loving lady who uses 'bewkuf' in every sentence."},
+                  {"role": "user", "content": prompt}]
     )
-    return response.choices[0].text.strip()
+    return response.choices[0].message['content'].strip()
 
 # Define a chatbot function with a specific personality
 def chatbot_response(message_content):
-    prompt = f"Respond to the following message in the style of a cute, caring, loving lady who uses 'bewkuf' in every sentence:\n\nMessage: {message_content}\nResponse:"
+    prompt = f"{message_content}"
     return get_openai_response(prompt)
 
 # Event handler for when the bot has connected to Discord
@@ -80,11 +80,14 @@ async def on_message(message):
             user_name = message.content
             await message.channel.send(f'Nice to meet you, {user_name}!')
             user_conversations.pop(user_id)
+    # Respond to messages containing "developer" or "dev"
+    elif 'developer' in message.content.lower() or 'dev' in message.content.lower():
+        await message.channel.send(f'{message.author.mention}, my developer is Naira Mummy!')
 
     # Normal chat interaction
     else:
         response = chatbot_response(message.content)
-        await message.channel.send(response)
+        await message.channel.send(f'{message.author.mention} {response}')
 
 # Run the bot with the token
 client.run(TOKEN)
